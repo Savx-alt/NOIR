@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR — Dark Chocolate Perfected</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cacao: #1a0a00;
+    --deep: #0d0500;
+    --brown: #3d1c00;
+    --caramel: #c47b2b;
+    --gold: #e8a94d;
+    --cream: #f5ead8;
+    --ivory: #fdf6ec;
+    --melt: #8b4513;
+    --silk: #d4956a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.3s;
+    opacity: 0.5;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 5rem 8rem 8rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s ease forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(4rem, 7vw, 8rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s ease forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--silk);
+    max-width: 38ch;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.7s ease forwards;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.9s ease forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--deep);
+    background: var(--gold);
+    border: none;
+    padding: 1.1rem 2.8rem;
+    cursor: none;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--cream); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(232,169,77,0.4);
+    padding-bottom: 2px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: none;
+  }
+  .btn-ghost:hover { color: var(--cream); border-color: var(--cream); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 50%, rgba(196,123,43,0.12) 0%, transparent 70%);
+  }
+
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes revealLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Divider line */
+  .divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 3rem auto;
+  }
+
+  /* SECTION BASE */
+  section { padding: 8rem 8rem; }
+
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 4vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* CHOCOLATE SHOWCASE */
+  .showcase {
+    background: var(--cacao);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .showcase::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(196,123,43,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-top: 5rem;
+  }
+
+  .choc-card {
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    group: true;
+  }
+
+  .choc-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .choc-img svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  .choc-card:hover .choc-img svg { transform: scale(1.04); }
+
+  .choc-info {
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(232,169,77,0.2);
+    margin-top: 1rem;
+  }
+
+  .choc-name {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+  }
+
+  .choc-note {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+  }
+
+  .choc-price {
+    float: right;
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* HEALTH SECTION */
+  .health {
+    background: var(--deep);
+    position: relative;
+  }
+
+  .health-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  .health-visual { position: relative; }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .benefit-item {
+    border-left: 2px solid var(--caramel);
+    padding-left: 1.5rem;
+  }
+
+  .benefit-num {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    font-style: italic;
+  }
+
+  .benefit-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silk);
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  .benefit-desc {
+    font-size: 0.92rem;
+    color: rgba(245,234,216,0.6);
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+
+  /* HEALTH FACTS */
+  .facts-list {
+    list-style: none;
+    margin-top: 2rem;
+  }
+
+  .facts-list li {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(245,234,216,0.08);
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--silk);
+  }
+
+  .facts-list li::before {
+    content: '◆';
+    color: var(--gold);
+    font-size: 0.5rem;
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+  }
+
+  /* QUOTE SECTION */
+  .quote-section {
+    background: var(--brown);
+    text-align: center;
+    padding: 7rem 12rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-section::before, .quote-section::after {
+    content: '"';
+    font-size: 20rem;
+    font-weight: 300;
+    color: rgba(232,169,77,0.06);
+    position: absolute;
+    line-height: 1;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .quote-section::before { top: -4rem; left: 4rem; }
+  .quote-section::after { bottom: -8rem; right: 4rem; }
+
+  .quote-text {
+    font-size: clamp(1.6rem, 3vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ivory);
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .quote-attr {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-top: 2rem;
+  }
+
+  /* ORIGIN SECTION */
+  .origin {
+    background: var(--cacao);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    min-height: 600px;
+  }
+
+  .origin-image { position: relative; overflow: hidden; }
+  .origin-image svg { width: 100%; height: 100%; display: block; min-height: 600px; }
+
+  .origin-content {
+    padding: 8rem 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .origin-content p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--silk);
+    margin-bottom: 1.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep);
+    padding: 5rem 8rem;
+    border-top: 1px solid rgba(232,169,77,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-size: 2.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-tagline {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--silk);
+    margin-top: 0.3rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silk);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: none;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 2rem 8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(13,5,0,0.9) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: all 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(13,5,0,0.95);
+    backdrop-filter: blur(12px);
+    padding: 1.2rem 8rem;
+    border-bottom: 1px solid rgba(232,169,77,0.1);
+  }
+
+  .nav-logo {
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: none;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* Horizontal scroll banner */
+  .ticker {
+    background: var(--gold);
+    overflow: hidden;
+    padding: 0.9rem 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-inner span {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--deep);
+    padding: 0 3rem;
+  }
+
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Noir</div>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#health">Health</a></li>
+    <li><a href="#origin">Origin</a></li>
+    <li><a href="#" class="btn-primary" style="padding:0.6rem 1.5rem">Shop Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Single-Origin · 88% Cacao · Handcrafted</p>
+    <h1 class="hero-title">The <em>darkest</em><br>pleasure known<br>to man.</h1>
+    <p class="hero-desc">Born in the ancient groves of Ecuador. Aged to perfection. NOIR is not simply chocolate — it is the distillation of centuries of obsession.</p>
+    <div class="hero-cta">
+      <a href="#collection" class="btn-primary">Explore Collection</a>
+      <a href="#health" class="btn-ghost">Health Benefits →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- Hero chocolate SVG illustration -->
+    <svg viewBox="0 0 520 680" xmlns="http://www.w3.org/2000/svg" style="width:90%; max-width:480px; filter: drop-shadow(0 40px 80px rgba(0,0,0,0.8));">
+      <defs>
+        <radialGradient id="barGrad" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#8B4513"/>
+          <stop offset="40%" stop-color="#5C2E00"/>
+          <stop offset="100%" stop-color="#2A1200"/>
+        </radialGradient>
+        <radialGradient id="shineGrad" cx="30%" cy="25%">
+          <stop offset="0%" stop-color="#D4956A" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#D4956A" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="meltGrad" cx="50%" cy="0%">
+          <stop offset="0%" stop-color="#A0522D"/>
+          <stop offset="100%" stop-color="#3D1C00"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Background glow -->
+      <ellipse cx="260" cy="360" rx="180" ry="220" fill="rgba(196,123,43,0.06)"/>
+
+      <!-- Chocolate bar main body -->
+      <rect x="80" y="120" width="360" height="420" rx="18" fill="url(#barGrad)"/>
+
+      <!-- Shine overlay -->
+      <rect x="80" y="120" width="360" height="420" rx="18" fill="url(#shineGrad)"/>
+
+      <!-- Top edge highlight -->
+      <rect x="80" y="120" width="360" height="8" rx="4" fill="rgba(212,149,106,0.4)"/>
+      <rect x="80" y="120" width="8" height="420" rx="4" fill="rgba(212,149,106,0.2)"/>
+
+      <!-- Grid lines (chocolate segments) - horizontal -->
+      <line x1="80" y1="240" x2="440" y2="240" stroke="#1A0A00" stroke-width="3"/>
+      <line x1="80" y1="360" x2="440" y2="360" stroke="#1A0A00" stroke-width="3"/>
+      <!-- vertical -->
+      <line x1="200" y1="120" x2="200" y2="540" stroke="#1A0A00" stroke-width="3"/>
+      <line x1="320" y1="120" x2="320" y2="540" stroke="#1A0A00" stroke-width="3"/>
+
+      <!-- Segment highlights (subtle) -->
+      <rect x="85" y="125" width="110" height="110" rx="4" fill="rgba(212,149,106,0.06)"/>
+      <rect x="205" y="125" width="110" height="110" rx="4" fill="rgba(212,149,106,0.03)"/>
+      <rect x="325" y="125" width="110" height="110" rx="4" fill="rgba(212,149,106,0.06)"/>
+      <rect x="85" y="245" width="110" height="110" rx="4" fill="rgba(212,149,106,0.04)"/>
+
+      <!-- Embossed NOIR logo -->
+      <text x="260" y="320" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="48" font-weight="300" font-style="italic" fill="rgba(26,10,0,0.7)" letter-spacing="8">NOIR</text>
+      <text x="260" y="348" text-anchor="middle" font-family="'Josefin Sans', sans-serif" font-size="9" fill="rgba(26,10,0,0.5)" letter-spacing="6">88% CACAO</text>
+
+      <!-- Melting drip at bottom-left corner -->
+      <path d="M80 480 Q80 520 90 530 Q95 545 88 560 Q82 572 80 540" fill="url(#meltGrad)" opacity="0.9"/>
+      <path d="M120 530 Q120 555 125 570 Q128 580 122 590 Q116 598 118 575 Q115 558 118 535" fill="url(#meltGrad)" opacity="0.7"/>
+      <path d="M160 520 Q163 545 158 555 Q154 563 157 545 Q155 528 160 520" fill="url(#meltGrad)" opacity="0.5"/>
+
+      <!-- Melting pool shadow -->
+      <ellipse cx="130" cy="600" rx="80" ry="12" fill="rgba(61,28,0,0.6)"/>
+
+      <!-- Floating cacao beans -->
+      <ellipse cx="470" cy="180" rx="22" ry="14" fill="#3D1C00" transform="rotate(-25,470,180)"/>
+      <ellipse cx="470" cy="180" rx="20" ry="12" fill="#5C3010" transform="rotate(-25,470,180)"/>
+      <line x1="460" y1="172" x2="480" y2="188" stroke="#2A1200" stroke-width="1" transform="rotate(-25,470,180)"/>
+
+      <ellipse cx="50" cy="400" rx="18" ry="11" fill="#3D1C00" transform="rotate(15,50,400)"/>
+      <ellipse cx="50" cy="400" rx="16" ry="9" fill="#5C3010" transform="rotate(15,50,400)"/>
+
+      <ellipse cx="490" cy="450" rx="15" ry="9" fill="#3D1C00" transform="rotate(-10,490,450)"/>
+      <ellipse cx="490" cy="450" rx="13" ry="7" fill="#5C3010" transform="rotate(-10,490,450)"/>
+
+      <!-- Gold dust particles -->
+      <circle cx="455" cy="250" r="2" fill="#E8A94D" opacity="0.7"/>
+      <circle cx="62" cy="290" r="1.5" fill="#E8A94D" opacity="0.5"/>
+      <circle cx="475" cy="370" r="1" fill="#E8A94D" opacity="0.8"/>
+      <circle cx="40" cy="200" r="2.5" fill="#E8A94D" opacity="0.4"/>
+      <circle cx="460" cy="320" r="1.5" fill="#E8A94D" opacity="0.6"/>
+    </svg>
+
+    <!-- Floating particles -->
+    <div class="particle" style="width:3px;height:3px;left:60%;animation-duration:8s;animation-delay:0s"></div>
+    <div class="particle" style="width:2px;height:2px;left:70%;animation-duration:11s;animation-delay:2s"></div>
+    <div class="particle" style="width:4px;height:4px;left:55%;animation-duration:9s;animation-delay:4s"></div>
+    <div class="particle" style="width:2px;height:2px;left:75%;animation-duration:13s;animation-delay:1s"></div>
+    <div class="particle" style="width:3px;height:3px;left:65%;animation-duration:10s;animation-delay:3s"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Single-Origin Ecuador</span><span>·</span>
+    <span>88% Pure Cacao</span><span>·</span>
+    <span>Antioxidant Rich</span><span>·</span>
+    <span>Ethically Sourced</span><span>·</span>
+    <span>Zero Additives</span><span>·</span>
+    <span>Hand Tempered</span><span>·</span>
+    <span>Single-Origin Ecuador</span><span>·</span>
+    <span>88% Pure Cacao</span><span>·</span>
+    <span>Antioxidant Rich</span><span>·</span>
+    <span>Ethically Sourced</span><span>·</span>
+    <span>Zero Additives</span><span>·</span>
+    <span>Hand Tempered</span><span>·</span>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section class="showcase" id="collection">
+  <div class="section-label reveal">The Collection</div>
+  <h2 class="section-title reveal reveal-delay-1">Three expressions<br>of <em>pure darkness.</em></h2>
+
+  <div class="showcase-grid">
+
+    <!-- Card 1: Original -->
+    <div class="choc-card reveal">
+      <div class="choc-img">
+        <svg viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="c1g" cx="40%" cy="35%">
+              <stop offset="0%" stop-color="#6B3310"/>
+              <stop offset="60%" stop-color="#3D1C00"/>
+              <stop offset="100%" stop-color="#1A0900"/>
+            </radialGradient>
+            <radialGradient id="c1shine" cx="30%" cy="25%">
+              <stop offset="0%" stop-color="#C17B40" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#C17B40" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="360" height="480" fill="#0d0500"/>
+          <!-- Ambient glow -->
+          <ellipse cx="180" cy="240" rx="140" ry="170" fill="rgba(139,69,19,0.12)"/>
+          <!-- Bar -->
+          <rect x="50" y="60" width="260" height="360" rx="12" fill="url(#c1g)"/>
+          <rect x="50" y="60" width="260" height="360" rx="12" fill="url(#c1shine)"/>
+          <!-- Segments -->
+          <line x1="50" y1="180" x2="310" y2="180" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="50" y1="300" x2="310" y2="300" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="137" y1="60" x2="137" y2="420" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="223" y1="60" x2="223" y2="420" stroke="#0d0500" stroke-width="2.5"/>
+          <!-- Logo -->
+          <text x="180" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="32" font-weight="300" font-style="italic" fill="rgba(13,5,0,0.65)" letter-spacing="4">NOIR</text>
+          <!-- Gold leaf decoration -->
+          <circle cx="290" cy="80" r="8" fill="rgba(232,169,77,0.15)"/>
+          <circle cx="68" cy="420" r="6" fill="rgba(232,169,77,0.1)"/>
+          <!-- Ground cacao dust -->
+          <circle cx="270" cy="440" r="3" fill="#5C2E00" opacity="0.8"/>
+          <circle cx="290" cy="450" r="2" fill="#5C2E00" opacity="0.6"/>
+          <circle cx="255" cy="452" r="1.5" fill="#5C2E00" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="choc-info">
+        <span class="choc-price">$28</span>
+        <div class="choc-name">Original Noir</div>
+        <div class="choc-note">88% · Ecuador · Deep Earth Notes</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Fleur de Sel -->
+    <div class="choc-card reveal reveal-delay-1">
+      <div class="choc-img">
+        <svg viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="c2g" cx="45%" cy="30%">
+              <stop offset="0%" stop-color="#7A3D15"/>
+              <stop offset="50%" stop-color="#4A2000"/>
+              <stop offset="100%" stop-color="#200E00"/>
+            </radialGradient>
+          </defs>
+          <rect width="360" height="480" fill="#0d0500"/>
+          <ellipse cx="180" cy="240" rx="140" ry="170" fill="rgba(196,123,43,0.1)"/>
+          <!-- Wrapper/foil effect -->
+          <rect x="40" y="50" width="280" height="380" rx="14" fill="rgba(232,169,77,0.08)" stroke="rgba(232,169,77,0.2)" stroke-width="1"/>
+          <!-- Bar -->
+          <rect x="55" y="65" width="250" height="350" rx="10" fill="url(#c2g)"/>
+          <!-- Shine -->
+          <rect x="55" y="65" width="250" height="350" rx="10" fill="radial-gradient(circle at 35% 30%, rgba(196,149,90,0.4), transparent)"/>
+          <ellipse cx="120" cy="130" rx="60" ry="40" fill="rgba(196,149,90,0.12)" transform="rotate(-20,120,130)"/>
+          <!-- Salt crystals on top -->
+          <rect x="55" y="65" width="250" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+          <circle cx="90" cy="80" r="2.5" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="140" cy="75" r="2" fill="rgba(255,255,255,0.4)"/>
+          <circle cx="200" cy="82" r="3" fill="rgba(255,255,255,0.45)"/>
+          <circle cx="250" cy="76" r="2" fill="rgba(255,255,255,0.35)"/>
+          <circle cx="170" cy="72" r="1.5" fill="rgba(255,255,255,0.6)"/>
+          <circle cx="110" cy="85" r="1.5" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="280" cy="80" r="2.5" fill="rgba(255,255,255,0.4)"/>
+          <!-- Segments -->
+          <line x1="55" y1="180" x2="305" y2="180" stroke="#0d0500" stroke-width="2"/>
+          <line x1="55" y1="295" x2="305" y2="295" stroke="#0d0500" stroke-width="2"/>
+          <line x1="138" y1="65" x2="138" y2="415" stroke="#0d0500" stroke-width="2"/>
+          <line x1="221" y1="65" x2="221" y2="415" stroke="#0d0500" stroke-width="2"/>
+          <text x="180" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="28" font-weight="300" font-style="italic" fill="rgba(13,5,0,0.6)" letter-spacing="4">NOIR</text>
+          <text x="180" y="268" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="7" fill="rgba(13,5,0,0.4)" letter-spacing="4">SEL DE MER</text>
+        </svg>
+      </div>
+      <div class="choc-info">
+        <span class="choc-price">$32</span>
+        <div class="choc-name">Fleur de Sel</div>
+        <div class="choc-note">85% · Madagascar · Sea Salt & Smoke</div>
+      </div>
+    </div>
+
+    <!-- Card 3: Grand Cru -->
+    <div class="choc-card reveal reveal-delay-2">
+      <div class="choc-img">
+        <svg viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="c3g" cx="35%" cy="40%">
+              <stop offset="0%" stop-color="#5C2800"/>
+              <stop offset="55%" stop-color="#2E1000"/>
+              <stop offset="100%" stop-color="#120600"/>
+            </radialGradient>
+            <radialGradient id="c3gold" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#E8A94D" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#E8A94D" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="360" height="480" fill="#0d0500"/>
+          <!-- Premium gold aura -->
+          <ellipse cx="180" cy="240" rx="150" ry="180" fill="url(#c3gold)"/>
+          <!-- Gold foil wrapper -->
+          <rect x="38" y="48" width="284" height="384" rx="16" fill="none" stroke="rgba(232,169,77,0.5)" stroke-width="1.5"/>
+          <rect x="44" y="54" width="272" height="372" rx="14" fill="none" stroke="rgba(232,169,77,0.2)" stroke-width="0.5"/>
+          <!-- Bar -->
+          <rect x="52" y="62" width="256" height="356" rx="10" fill="url(#c3g)"/>
+          <!-- Segments (diamond pattern) -->
+          <line x1="52" y1="182" x2="308" y2="182" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="52" y1="302" x2="308" y2="302" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="137" y1="62" x2="137" y2="418" stroke="#0d0500" stroke-width="2.5"/>
+          <line x1="222" y1="62" x2="222" y2="418" stroke="#0d0500" stroke-width="2.5"/>
+          <!-- Gold emboss -->
+          <text x="180" y="235" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="34" font-weight="300" font-style="italic" fill="rgba(232,169,77,0.25)" letter-spacing="5">NOIR</text>
+          <text x="180" y="258" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="7" fill="rgba(232,169,77,0.2)" letter-spacing="5">GRAND CRU</text>
+          <!-- Decorative gold corners -->
+          <path d="M52 62 L72 62 L72 66 L56 66 L56 82 L52 82 Z" fill="rgba(232,169,77,0.4)"/>
+          <path d="M308 62 L288 62 L288 66 L304 66 L304 82 L308 82 Z" fill="rgba(232,169,77,0.4)"/>
+          <path d="M52 418 L72 418 L72 414 L56 414 L56 398 L52 398 Z" fill="rgba(232,169,77,0.4)"/>
+          <path d="M308 418 L288 418 L288 414 L304 414 L304 398 L308 398 Z" fill="rgba(232,169,77,0.4)"/>
+        </svg>
+      </div>
+      <div class="choc-info">
+        <span class="choc-price">$48</span>
+        <div class="choc-name">Grand Cru</div>
+        <div class="choc-note">92% · Venezuela · Ancient Reserve</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <p class="quote-text reveal">"Dark chocolate is not an indulgence — it is medicine dressed in obsidian."</p>
+  <p class="quote-attr reveal reveal-delay-1">Dr. Elena Marchetti · Nutritional Science, University of Milan</p>
+</div>
+
+<!-- HEALTH SECTION -->
+<section class="health" id="health">
+  <div class="section-label reveal">The Science of Pleasure</div>
+  <h2 class="section-title reveal reveal-delay-1">Dark chocolate is<br>one of the world's<br><em>most powerful</em> foods.</h2>
+
+  <div class="health-layout">
+    <div class="health-visual reveal">
+      <!-- Health infographic SVG -->
+      <svg viewBox="0 0 420 500" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+        <defs>
+          <radialGradient id="hg1" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#C47B2B" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#C47B2B" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Central circle -->
+        <circle cx="210" cy="250" r="100" fill="none" stroke="rgba(196,123,43,0.15)" stroke-width="1"/>
+        <circle cx="210" cy="250" r="75" fill="none" stroke="rgba(196,123,43,0.1)" stroke-width="0.5"/>
+        <!-- Cacao pod in center -->
+        <ellipse cx="210" cy="250" rx="45" ry="65" fill="#3D1C00" stroke="rgba(196,123,43,0.4)" stroke-width="1"/>
+        <ellipse cx="210" cy="250" rx="38" ry="57" fill="#5C2E00"/>
+        <!-- Pod ridges -->
+        <path d="M185 195 Q210 215 210 250 Q210 285 185 305" fill="none" stroke="rgba(196,123,43,0.3)" stroke-width="1"/>
+        <path d="M235 195 Q210 215 210 250 Q210 285 235 305" fill="none" stroke="rgba(196,123,43,0.3)" stroke-width="1"/>
+        <path d="M172 210 Q210 230 210 250 Q210 270 172 290" fill="none" stroke="rgba(139,69,19,0.2)" stroke-width="0.8"/>
+        <text x="210" y="246" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" font-style="italic" fill="rgba(232,169,77,0.6)">Theobroma</text>
+        <text x="210" y="262" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" font-style="italic" fill="rgba(232,169,77,0.6)">cacao</text>
+
+        <!-- Radiating lines to benefits -->
+        <line x1="210" y1="150" x2="210" y2="80" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <line x1="280" y1="185" x2="340" y2="145" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <line x1="305" y1="270" x2="380" y2="290" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <line x1="210" y1="350" x2="210" y2="420" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <line x1="115" y1="270" x2="40" y2="290" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <line x1="140" y1="185" x2="80" y2="145" stroke="rgba(196,123,43,0.3)" stroke-width="0.8" stroke-dasharray="4,4"/>
+
+        <!-- Benefit nodes -->
+        <!-- Top: Antioxidants -->
+        <circle cx="210" cy="65" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="210" y="60" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="7" fill="#E8A94D" letter-spacing="1">ANTIOXIDANTS</text>
+        <text x="210" y="74" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="14" font-weight="300" fill="#F5EAD8">40×</text>
+
+        <!-- Top-right: Heart -->
+        <circle cx="355" cy="132" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="355" y="128" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="6.5" fill="#E8A94D" letter-spacing="1">HEART</text>
+        <text x="355" y="142" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" fill="#F5EAD8">Health ♥</text>
+
+        <!-- Right: Minerals -->
+        <circle cx="390" cy="285" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="390" y="280" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="6.5" fill="#E8A94D" letter-spacing="1">MINERALS</text>
+        <text x="390" y="294" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" fill="#F5EAD8">Fe·Mg·Zn</text>
+
+        <!-- Bottom: Mood -->
+        <circle cx="210" cy="435" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="210" y="430" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="7" fill="#E8A94D" letter-spacing="1">MOOD</text>
+        <text x="210" y="444" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" fill="#F5EAD8">Serotonin</text>
+
+        <!-- Left: Brain -->
+        <circle cx="30" cy="285" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="30" y="280" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="6.5" fill="#E8A94D" letter-spacing="1">BRAIN</text>
+        <text x="30" y="294" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" fill="#F5EAD8">Cognition</text>
+
+        <!-- Top-left: Anti-inflam -->
+        <circle cx="65" cy="132" r="28" fill="rgba(61,28,0,0.8)" stroke="rgba(232,169,77,0.4)" stroke-width="1"/>
+        <text x="65" y="126" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="5.5" fill="#E8A94D" letter-spacing="0.8">ANTI-INFLAM</text>
+        <text x="65" y="140" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="10" fill="#F5EAD8">Flavonols</text>
+      </svg>
+    </div>
+
+    <div>
+      <ul class="facts-list reveal">
+        <li>Dark chocolate with 70%+ cacao is packed with flavonoids — powerful antioxidants that neutralize free radicals, outperforming blueberries, acai, and red wine by up to 40 times per gram.</li>
+        <li>Regular consumption of high-cacao dark chocolate has been clinically associated with reduced LDL ("bad") cholesterol, improved blood flow, and lower blood pressure — protecting your heart over time.</li>
+        <li>Cacao stimulates the production of serotonin and phenylethylamine in the brain — natural mood-elevating compounds that reduce anxiety and create a sustained sense of wellbeing.</li>
+        <li>A 40g serving of NOIR contains more magnesium than a cup of spinach, along with significant levels of iron, zinc, and potassium — essential minerals for energy metabolism and immune health.</li>
+        <li>The flavanols in dark chocolate improve cerebral blood flow, supporting sharper memory, focus, and long-term cognitive resilience. Studies link regular intake to reduced risk of cognitive decline.</li>
+        <li>Unlike milk chocolate, ultra-dark cacao has a very low glycemic index — it doesn't spike blood sugar and can even improve insulin sensitivity when consumed in modest daily amounts.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Benefit stats -->
+  <div class="benefits-grid reveal">
+    <div class="benefit-item">
+      <div class="benefit-num">40×</div>
+      <span class="benefit-label">Antioxidant Power</span>
+      <p class="benefit-desc">More antioxidants than green tea or blueberries by weight</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-num">11%</div>
+      <span class="benefit-label">Daily Iron</span>
+      <p class="benefit-desc">Per 40g serving — rivalling red meat in bioavailable iron</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-num">58%</div>
+      <span class="benefit-label">Magnesium RDA</span>
+      <p class="benefit-desc">Critical for muscle function, sleep, and nervous system health</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-num">↓21%</div>
+      <span class="benefit-label">Cardiovascular Risk</span>
+      <p class="benefit-desc">Reduced risk with 5+ servings per week (Harvard study, 2020)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ORIGIN SECTION -->
+<section class="origin" id="origin">
+  <div class="origin-image">
+    <svg viewBox="0 0 520 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-height:600px">
+      <defs>
+        <radialGradient id="jungleGrad" cx="50%" cy="30%">
+          <stop offset="0%" stop-color="#1a3a0a"/>
+          <stop offset="100%" stop-color="#050e02"/>
+        </radialGradient>
+        <radialGradient id="podGlow" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#C47B2B" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#C47B2B" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="520" height="600" fill="url(#jungleGrad)"/>
+      <!-- Jungle atmosphere -->
+      <ellipse cx="260" cy="200" rx="200" ry="150" fill="rgba(196,123,43,0.08)"/>
+
+      <!-- Tree trunk -->
+      <rect x="220" y="0" width="80" height="600" rx="10" fill="#1a0800"/>
+      <rect x="228" y="0" width="8" height="600" fill="rgba(255,255,255,0.03)"/>
+      <!-- Bark texture -->
+      <line x1="224" y1="50" x2="296" y2="80" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <line x1="224" y1="120" x2="296" y2="100" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <line x1="224" y1="180" x2="296" y2="200" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <line x1="224" y1="280" x2="296" y2="260" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <line x1="224" y1="350" x2="296" y2="380" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <line x1="224" y1="450" x2="296" y2="420" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+
+      <!-- Cacao pods on tree (theobroma grows directly on trunk) -->
+      <!-- Pod 1 - large, ripe -->
+      <g transform="translate(90, 200)">
+        <ellipse cx="0" cy="0" rx="42" ry="28" fill="none"/>
+        <ellipse cx="0" cy="0" rx="38" ry="60" fill="#C47B2B" transform="rotate(-25)"/>
+        <ellipse cx="0" cy="0" rx="32" ry="52" fill="#A0521A" transform="rotate(-25)"/>
+        <!-- Ridges -->
+        <path d="M-15 -45 Q0 -30 0 0 Q0 30 -15 45" fill="none" stroke="#8B3A10" stroke-width="1.5" transform="rotate(-25)"/>
+        <path d="M15 -45 Q0 -30 0 0 Q0 30 15 45" fill="none" stroke="#8B3A10" stroke-width="1.5" transform="rotate(-25)"/>
+        <path d="M-28 -25 Q0 -15 0 0 Q0 15 -28 25" fill="none" stroke="#8B3A10" stroke-width="1" transform="rotate(-25)"/>
+        <!-- Stem -->
+        <line x1="26" y1="-10" x2="40" y2="-2" stroke="#5C3010" stroke-width="2" transform="rotate(-25)"/>
+        <!-- Highlight -->
+        <ellipse cx="-8" cy="-20" rx="12" ry="18" fill="rgba(232,169,77,0.15)" transform="rotate(-25)"/>
+      </g>
+      <!-- Connector line -->
+      <line x1="130" y1="200" x2="224" y2="210" stroke="#3D1C00" stroke-width="2"/>
+
+      <!-- Pod 2 - green/unripe -->
+      <g transform="translate(370, 300)">
+        <ellipse cx="0" cy="0" rx="30" ry="48" fill="#2A4A10" transform="rotate(20)"/>
+        <ellipse cx="0" cy="0" rx="24" ry="40" fill="#1E3A0A" transform="rotate(20)"/>
+        <path d="M-10 -35 Q0 -20 0 0 Q0 20 -10 35" fill="none" stroke="#152E06" stroke-width="1.2" transform="rotate(20)"/>
+        <path d="M10 -35 Q0 -20 0 0 Q0 20 10 35" fill="none" stroke="#152E06" stroke-width="1.2" transform="rotate(20)"/>
+        <line x1="-25" y1="-8" x2="-40" y2="-2" stroke="#1A3008" stroke-width="2" transform="rotate(20)"/>
+      </g>
+      <line x1="340" y1="300" x2="296" y2="290" stroke="#3D1C00" stroke-width="2"/>
+
+      <!-- Pod 3 - medium -->
+      <g transform="translate(120, 380)">
+        <ellipse cx="0" cy="0" rx="28" ry="44" fill="#7A3A10" transform="rotate(30)"/>
+        <ellipse cx="0" cy="0" rx="22" ry="37" fill="#5C2800" transform="rotate(30)"/>
+        <path d="M-10 -30 Q0 -18 0 0 Q0 18 -10 30" fill="none" stroke="#3D1A06" stroke-width="1" transform="rotate(30)"/>
+        <path d="M10 -30 Q0 -18 0 0 Q0 18 10 30" fill="none" stroke="#3D1A06" stroke-width="1" transform="rotate(30)"/>
+        <line x1="26" y1="-6" x2="40" y2="2" stroke="#3D1C00" stroke-width="2" transform="rotate(30)"/>
+      </g>
+      <line x1="148" y1="380" x2="224" y2="370" stroke="#3D1C00" stroke-width="2"/>
+
+      <!-- Jungle leaves -->
+      <ellipse cx="60" cy="120" rx="50" ry="20" fill="#0d2006" transform="rotate(-30,60,120)"/>
+      <ellipse cx="420" cy="150" rx="45" ry="18" fill="#0d2006" transform="rotate(25,420,150)"/>
+      <ellipse cx="50" cy="480" rx="55" ry="22" fill="#0d2006" transform="rotate(15,50,480)"/>
+      <ellipse cx="430" cy="500" rx="50" ry="20" fill="#0d2006" transform="rotate(-20,430,500)"/>
+      <ellipse cx="80" cy="550" rx="60" ry="18" fill="#122a08" transform="rotate(-10,80,550)"/>
+      <ellipse cx="390" cy="70" rx="48" ry="16" fill="#0d2006" transform="rotate(30,390,70)"/>
+
+      <!-- Dappled light -->
+      <ellipse cx="180" cy="260" rx="30" ry="18" fill="rgba(232,169,77,0.06)" transform="rotate(-20)"/>
+      <ellipse cx="350" cy="430" rx="25" ry="15" fill="rgba(232,169,77,0.05)" transform="rotate(15)"/>
+
+      <!-- Ground text -->
+      <text x="260" y="570" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="8" fill="rgba(232,169,77,0.35)" letter-spacing="4">ECUADOR · ALTITUDE 1,200M</text>
+    </svg>
+  </div>
+
+  <div class="origin-content">
+    <div class="section-label reveal">From Soil to Soul</div>
+    <h2 class="section-title reveal reveal-delay-1">The ancient<br>groves of<br><em>Ecuador.</em></h2>
+
+    <p class="reveal reveal-delay-1">At 1,200 metres above sea level, in the mist-wrapped valleys of the Napo province, grow the rarest cacao trees on earth. Some are over 200 years old. Their beans carry the volcanic minerality of the Andes and the humid sweetness of the Amazon basin.</p>
+
+    <p class="reveal reveal-delay-2">We work directly with 34 farming families. No brokers. No commodity markets. Each pod is harvested by hand, fermented on-site for seven days, and sun-dried on raised beds until the moisture content reaches exactly 6.5%.</p>
+
+    <p class="reveal reveal-delay-3">The result is a chocolate with a flavour complexity no other origin can replicate — deep tobacco, leather, dried cherry, and the faintest whisper of earth after rain.</p>
+
+    <div style="margin-top:3rem" class="reveal">
+      <a href="#" class="btn-primary">Our Sourcing Story →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Noir</div>
+    <div class="footer-tagline">Darkness, perfected.</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Collection</a></li>
+    <li><a href="#">Our Story</a></li>
+    <li><a href="#">Stockists</a></li>
+    <li><a href="#">Press</a></li>
+  </ul>
+  <div style="font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:rgba(245,234,216,0.3);">
+    © 2026 NOIR CHOCOLAT
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
